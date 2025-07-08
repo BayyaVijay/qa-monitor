@@ -98,11 +98,9 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed':
+      case 'pass':
         return 'bg-green-100 text-green-800 border-green-200';
-      case 'in-progress':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'failed':
+      case 'fail':
         return 'bg-red-100 text-red-800 border-red-200';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200';
@@ -117,7 +115,7 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
   // Group test executions by task to show unique tasks
   const uniqueTasks = testExecutions.reduce(
     (acc: Record<string, ExtendedTestExecution>, execution: TestExecution) => {
-      const taskId = execution.taskId && typeof execution.taskId === "object" ? execution.taskId._id : undefined;
+      const taskId = execution.taskId && typeof execution.taskId === "object" ? execution.taskId._id : execution.taskId;
   
       if (!taskId) return acc;
   
@@ -272,10 +270,8 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="in-progress">In Progress</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                  <SelectItem value="failed">Failed</SelectItem>
+                  <SelectItem value="pass">Pass</SelectItem>
+                  <SelectItem value="fail">Fail</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -410,10 +406,10 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
                     <TableCell>
                       <div className="max-w-xs">
                         <p className="font-medium truncate text-gray-900">
-                          {(execution as any).taskId?.description || 'Task description not available'}
+                          {typeof execution.taskId === 'object' ? execution.taskId.description : 'Task description not available'}
                         </p>
                         <div className="flex flex-wrap gap-1 mt-2">
-                          {((execution as any).taskId?.tags || []).slice(0, 2).map((tag: string, tagIndex: number) => (
+                          {(typeof execution.taskId === 'object' ? execution.taskId.tags : []).slice(0, 2).map((tag: string, tagIndex: number) => (
                             <Badge
                               key={tagIndex}
                               variant="secondary"
@@ -422,9 +418,9 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
                               {tag}
                             </Badge>
                           ))}
-                          {((execution as any).taskId?.tags || []).length > 2 && (
+                          {(typeof execution.taskId === 'object' ? execution.taskId.tags : []).length > 2 && (
                             <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-600">
-                              +{((execution as any).taskId?.tags || []).length - 2}
+                              +{(typeof execution.taskId === 'object' ? execution.taskId.tags : []).length - 2}
                             </Badge>
                           )}
                         </div>
@@ -470,7 +466,7 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => onShowHistory(typeof execution?.taskId === 'object' && '_id' in (execution.taskId as TaskId) ? (execution.taskId as TaskId)._id : "")}
+                          onClick={() => onShowHistory(typeof execution.taskId === 'object' ? execution.taskId._id : execution.taskId)}
                           className="h-8 w-8 p-0 border-green-200 text-green-700 hover:bg-green-50"
                         >
                           <History className="h-4 w-4" />

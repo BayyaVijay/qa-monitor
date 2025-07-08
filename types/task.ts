@@ -1,5 +1,6 @@
 export interface Task {
   _id?: string;
+  unitTestLabel: string;
   tags: string[];
   description: string;
   testCases: string[];
@@ -10,6 +11,7 @@ export interface Task {
 }
 
 export interface CreateTaskRequest {
+  unitTestLabel: string;
   tags: string[];
   description: string;
   testCases: string[];

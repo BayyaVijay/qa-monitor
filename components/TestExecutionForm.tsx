@@ -321,42 +321,7 @@ export default function TestExecutionForm({ editTestExecution, onSuccess }: Test
             </div>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="space-y-2">
-              <Label htmlFor="testerName" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                <User className="h-4 w-4" />
-                <span>Tester Name</span>
-              </Label>
-              <Input
-                id="testerName"
-                name="testerName"
-                value={formData.testerName}
-                onChange={handleInputChange}
-                placeholder="Enter tester name"
-                className={`h-12 ${errors.testerName ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500 focus:ring-blue-500`}
-              />
-              {errors.testerName && (
-                <p className="text-sm text-red-500 flex items-center space-x-1">
-                  <XCircle className="h-3 w-3" />
-                  <span>{errors.testerName}</span>
-                </p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="status" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                {getStatusIcon(formData.status)}
-                <span>Status (Auto-calculated)</span>
-              </Label>
-              <div className={`h-12 px-3 py-2 border rounded-md flex items-center ${getStatusColor(formData.status)}`}>
-                <Badge className={`${getStatusColor(formData.status)} border-0`}>
-                  {formData.status.toUpperCase()}
-                </Badge>
-              </div>
-            </div>
-          </div>
-
-          {/* {selectedTask && formData.testCases.length > 0 && (
+          {selectedTask && formData.testCases.length > 0 && (
             <div className="space-y-4">
               <Label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
                 <CheckCircle className="h-4 w-4" />
@@ -411,7 +376,42 @@ export default function TestExecutionForm({ editTestExecution, onSuccess }: Test
                 ))}
               </div>
             </div>
-          )} */}
+          )}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <Label htmlFor="testerName" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                <User className="h-4 w-4" />
+                <span>Tester Name</span>
+              </Label>
+              <Input
+                id="testerName"
+                name="testerName"
+                value={formData.testerName}
+                onChange={handleInputChange}
+                placeholder="Enter tester name"
+                className={`h-12 ${errors.testerName ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500 focus:ring-blue-500`}
+              />
+              {errors.testerName && (
+                <p className="text-sm text-red-500 flex items-center space-x-1">
+                  <XCircle className="h-3 w-3" />
+                  <span>{errors.testerName}</span>
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="status" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                {getStatusIcon(formData.status)}
+                <span>Status (Auto-calculated)</span>
+              </Label>
+              <div className={`h-12 px-3 py-2 border rounded-md flex items-center ${getStatusColor(formData.status)}`}>
+                <Badge className={`${getStatusColor(formData.status)} border-0`}>
+                  {formData.status.toUpperCase()}
+                </Badge>
+              </div>
+            </div>
+          </div>
+
 
           <div className="space-y-2">
             <Label htmlFor="feedback" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">

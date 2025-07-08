@@ -98,9 +98,6 @@ export async function POST(request: NextRequest) {
     const passedTestCases = testCases.filter((tc: any) => tc.passed).length;
     const totalTestCases = testCases.length;
 
-    // Determine status based on test results
-    const finalStatus = passedTestCases === totalTestCases ? 'pass' : 'fail';
-
     // Check if test execution with same testId already exists
     const existingExecution = await TestExecution.findOne({ testId: testId.trim() });
     
@@ -111,7 +108,7 @@ export async function POST(request: NextRequest) {
         {
           taskId,
           testCases,
-          status: finalStatus,
+          status,
           feedback: feedback.trim(),
           attachedImages: attachedImages || [],
           testerName: testerName.trim(),
@@ -133,7 +130,7 @@ export async function POST(request: NextRequest) {
       taskId,
       testId: testId.trim(),
       testCases,
-      status: finalStatus,
+      status,
       feedback: feedback.trim(),
       attachedImages: attachedImages || [],
       testerName: testerName.trim(),
